@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 30px;
+        }
+        #task-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        #task-list li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #task-list li:hover {
+            background-color: #ddd;
+        }
+        button {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Todo List</h1>
+    <input id="new-task" type="text" placeholder="New task">
+    <button id="add-task">Add Task</button>
+    <ul id="task-list">
+        <!-- Tasks will go here -->
+    </ul>
+
+    <script>
+        document.getElementById('add-task').addEventListener('click', function() {
+            var task = document.getElementById('new-task').value;
+            if (task) {
+                var li = document.createElement('li');
+                li.textContent = task;
+
+                // Add a button to mark the task as completed
+                var completeButton = document.createElement('button');
+                completeButton.textContent = 'Complete';
+                completeButton.addEventListener('click', function() {
+                    li.style.textDecoration = 'line-through';
+                });
+                li.appendChild(completeButton);
+
+                // Add a button to delete the task
+                var deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.addEventListener('click', function() {
+                    document.getElementById('task-list').removeChild(li);
+                });
+                li.appendChild(deleteButton);
+
+                document.getElementById('task-list').appendChild(li);
+                document.getElementById('new-task').value = '';
+
+                // Implement local storage functionality
+                localStorage.setItem('todoList', document.getElementById('task-list').innerHTML);
+            }
+        });
+
+        // Load tasks from local storage
+        document.getElementById('task-list').innerHTML = localStorage.getItem('todoList');
+    </script>
+</body>
+</html>
